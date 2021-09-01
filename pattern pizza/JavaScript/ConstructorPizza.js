@@ -10,11 +10,7 @@ const spanToppings = divToppings.firstChild.lastChild;
 
 let price = 0;
 const toppings = [], sauces = [];
-// class Pizza {
-//     constructor(size) {
-//         
-//     }
-// }
+
 function Pizza(size) {
     this.size = size;
 }
@@ -122,93 +118,229 @@ Pizza.prototype.addIngridients = function (ingridient) {
     }
 }
 Pizza.prototype.removeIngridients = function (ingridient) {
-
-    switch (ingridient.name) {
-        case 'Сир': {
-            delete this.cheese;
-            ingridient.added = false;
-            break;
-        }
-        case 'Фета': {
-            delete this.feta
-            ingridient.added = false;
-            break;
-        }
-        case 'Моцарелла': {
-            delete this.mozzarella
-            ingridient.added = false;
-            break;
-        }
-        case 'Телятина': {
-            delete this.veal
-            ingridient.added = false;
-            break;
-        }
-        case 'Помiдори': {
-            delete this.tomato
-            ingridient.added = false;
-            break;
-        }
-        case 'Гриби': {
-            delete this.mushrooms
-            ingridient.added = false;
-            break;
-        }
-        case 'Кетчуп': {
-            delete this.ketchup
-            ingridient.added = false;
-            break;
-        }
-        case 'BBQ': {
-            delete this.bbq
-            ingridient.added = false;
-            break;
-        }
-        case 'Рiкотта': {
-            delete this.ricotta
-            ingridient.added = false;
-            break;
-        }
-    }
-
-    if (ingridient.type == 'Sauce') {
-        sauces.forEach(function (el, i, a) {
-            if (el == ingridient.name) {
-                a.splice(i, 1)
+    if (ingridient.added === true) {
+        switch (ingridient.name) {
+            case 'Сир': {
+                delete this.cheese;
+                ingridient.added = false;
+                break;
             }
-        });
-        spanSauces.innerHTML = sauces.toString()
-        spanSauces.style.textTransform = "capitalize";
-    } else {
-        toppings.forEach(function (el, i, a) {
-            if (el == ingridient.name) {
-                a.splice(i, 1)
+            case 'Фета': {
+                delete this.feta
+                ingridient.added = false;
+                break;
             }
-        });
-        spanToppings.innerHTML = toppings.toString()
-        spanToppings.style.textTransform = "capitalize";
+            case 'Моцарелла': {
+                delete this.mozzarella
+                ingridient.added = false;
+                break;
+            }
+            case 'Телятина': {
+                delete this.veal
+                ingridient.added = false;
+                break;
+            }
+            case 'Помiдори': {
+                delete this.tomato
+                ingridient.added = false;
+                break;
+            }
+            case 'Гриби': {
+                delete this.mushrooms
+                ingridient.added = false;
+                break;
+            }
+            case 'Кетчуп': {
+                delete this.ketchup
+                ingridient.added = false;
+                break;
+            }
+            case 'BBQ': {
+                delete this.bbq
+                ingridient.added = false;
+                break;
+            }
+            case 'Рiкотта': {
+                delete this.ricotta
+                ingridient.added = false;
+                break;
+            }
+        }
+
+        if (ingridient.type == 'Sauce') {
+            sauces.forEach(function (el, i, a) {
+                if (el == ingridient.name) {
+                    a.splice(i, 1)
+                }
+            });
+            spanSauces.innerHTML = sauces.toString()
+            spanSauces.style.textTransform = "capitalize";
+        } else {
+            toppings.forEach(function (el, i, a) {
+                if (el == ingridient.name) {
+                    a.splice(i, 1)
+                }
+            });
+            spanToppings.innerHTML = toppings.toString()
+            spanToppings.style.textTransform = "capitalize";
+        }
+        price = price - ingridient.price;
+        spanPrice.innerHTML = price + " грн";
+
     }
-    price = price - ingridient.price;
-    spanPrice.innerHTML = price + " грн";
 
 }
 
-// let pizza = new Pizza(Pizza.Size_Big)
-// price = pizza.size.price
-// pizza.addIngridients(Pizza.Sauce_Ketchup)
-// pizza.addIngridients(Pizza.Sauce_BBQ)
-// pizza.addIngridients(Pizza.Topping_Cheese)
-// pizza.addIngridients(Pizza.Topping_Veal)
-// pizza.addIngridients(Pizza.Topping_Mushrooms)
-// pizza.removeIngridients(Pizza.Topping_Veal)
-// pizza.removeIngridients(Pizza.Sauce_BBQ)
 
+
+//Drag and drop
+let cake = document.querySelector('[alt = "Корж класичний"]'),
+    goal = document.querySelector('.droppable'),
+    ball = document.querySelector("#sauceClassic");
+let div = document.querySelector(".ingridients").childNodes[3];
+//let ballClone = null;
+let currentDroppable = null;
+
+ball.onmousedown = (e) => {
+
+    // if (ballClone === null) {
+    //     ballClone = ball.cloneNode(true)
+    //     div.prepend(ballClone)
+    // }
+    // Передвижение с учётом изначального сдвига shiftX/shiftY.
+    let shiftX = e.clientX - ball.getBoundingClientRect().left;
+    let shiftY = e.clientY - ball.getBoundingClientRect().top;
+    if (window.getComputedStyle(ball)["position"] === "absolute") {
+        setSize()
+    } else {
+        ball.style.height = 100 + "px";
+        ball.style.width = "auto";
+    }
+    // разместить на том же месте, но в абсолютных координатах
+    ball.style.position = 'absolute';
+    ball.style.zIndex = 1000;
+
+
+    // переместим в body, чтобы мяч был точно не внутри position:relative
+    document.body.append(ball);
+
+    // передвинуть мяч под координаты курсора
+    moveAt(e.pageX, e.pageY);
+
+    // и определить точку в которую нужно преместиться
+    function moveAt(pageX, pageY) {
+        ball.style.left = pageX - shiftX + 'px';
+        ball.style.top = pageY - shiftY + 'px';
+    }
+    // перемещать по экрану
+    function onMouseMove(event) {
+        moveAt(event.pageX, event.pageY);
+
+        ball.hidden = true;
+        let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
+        ball.hidden = false;
+
+        if (!elemBelow) return;
+        let droppableBelow = elemBelow.closest('.droppable');
+
+        if (currentDroppable != droppableBelow) {
+
+            if (currentDroppable) { // null если мы были не над droppable до этого события
+                // (например, над пустым пространством)
+                leaveDroppable(currentDroppable);
+            }
+            currentDroppable = droppableBelow;
+            if (currentDroppable) { // null если мы не над droppable сейчас, во время этого события
+                // (например, только что покинули droppable)
+                enterDroppable(currentDroppable);
+            }
+        }
+    };
+    document.addEventListener('mousemove', onMouseMove);
+
+    ball.onmouseup = function () {
+        if (currentDroppable) {
+            setSize()
+            for (i = 0; i < f0.elements.length; i++) {
+        if (f0.elements[i].checked === true) {
+            switch (i) {
+                case 0: {
+                    ball.style.transform = "scale(0.8)";
+                    break;
+                }
+                case 1: {
+                    ball.style.transform = "scale(0.9)";
+                    break;
+                }
+                case 2: {
+                    ball.style.transform = "scale(1)";
+                }
+            }
+        }
+    }
+            ball.style.left = "1px";
+            ball.style.top = "2px";
+            ball.style.opacity = "1";
+            goal.style.position = 'relative'
+            goal.append(ball);
+            goal.style.background = "";
+            pizza.addIngridients(Pizza.Sauce_Ketchup)
+        } else {
+            ball.style.height = 100 + "px";
+            ball.style.width = "auto";
+            ball.style.position = "inherit"
+            div.prepend(ball)
+            pizza.removeIngridients(Pizza.Sauce_Ketchup)
+        }
+        document.removeEventListener('mousemove', onMouseMove);
+        ball.onmouseup = null;
+    }
+
+
+}
+function enterDroppable(elem) {
+    elem.style.background = 'rgb(221, 246, 250)';
+    ball.style.opacity = ".5";
+}
+
+function leaveDroppable(elem) {
+    elem.style.background = '';
+    ball.style.opacity = "1";
+}
+
+function setSize() {
+    let widthCake = parseInt(window.getComputedStyle(cake)["width"])
+    ball.style.width = widthCake - 10 + "px";
+    ball.style.height = "auto";
+    ball.style.transform = "scale(1)"
+}
+// Отмена действия браузера по событию dragstart.
+ball.ondragstart = function () {
+    return false;
+};
+// отследить окончание переноса
+// ball.onmouseup = () => {
+//     if (currentDroppable) {
+//         ballInGoal();
+
+//         goal.style.backgroundColor = "yellow"
+//     } else {
+//         ballClone.remove()
+//         ballClone = null
+//         ball.className = "draggable"
+//         ball.style.position = "inherit"
+//         div.prepend(ball)
+//     }
+
+//     document.onmousemove = null;
+//     ball.onmouseup = null;
+// };
 window.addEventListener('DOMContentLoaded', () => {
-    // createPizza(Pizza.Size_Big);
+
+    createPizza(Pizza.Size_Big);
 
     for (i = 0; i < f0.elements.length; i++) {
         f0.elements[i].addEventListener('click', (e) => {
-            let cake = document.querySelector('[alt = "Корж класичний"]')
             switch (e.target.getAttribute("id")) {
                 case "small": {
                     createPizza(Pizza.Size_Small);
@@ -227,79 +359,5 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         })
     }
-    //Drag and drop
-    let currentDroppable = null;
-    let draggable = document.querySelectorAll(".draggable")
-    let cake = document.getElementsByClassName("table")
-    draggable.forEach(function (el) {
-        el.addEventListener('mousedown', (e)=>{
-            let coords = getCoords(el);
-            let shiftX = e.pageX - coords.left;
-            let shiftY = e.pageY - coords.top;  
-            el.style.position = 'absolute';
-            document.body.appendChild(el);  
-            moveAt(e);  
-
-            el.style.zIndex = 100; 
-
-            function moveAt(e) {
-                el.style.left = e.pageX - shiftX + 'px';
-                el.style.top = e.pageY - shiftY + 'px';
-            }
-
-            document.addEventListener('mousemove', (e)=>{
-                moveAt(e);
-
-                el.hidden = true;
-                let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
-                el.hidden = false;
-
-                if (!elemBelow) return;
-                let dropAbleBelow = elemBelow.closest("#cake");
-
-                if (currentDroppable != dropAbleBelow) {
-                    if (currentDroppable) {
-                        el.style.opacity = "1";
-                        currentDroppable.style.background = '';
-                        el.style.width = "160px";
-                        el.style.height = "100px";
-                    }
-                    currentDroppable = dropAbleBelow;
-
-                    if (currentDroppable) {
-                        el.style.opacity = ".8";
-                        el.style.transform = "scale(1.5)";
-                        currentDroppable.style.background = "pink";
-
-                    }
-
-                }
-            })
-
-            el.onmouseup = () => {
-                if (currentDroppable) {
-                    el.style.opacity = "1";
-                        el.style.transform = "scale(2)";
-                        cake.append(el)
-                }
-
-                document.onmousemove = null;
-                el.onmouseup = null;
-            };
-        })
-
-        el.ondragstart = () => {
-            return false;
-        };
-        // отследить нажатие
-        function getCoords(elem) { //
-            let box = elem.getBoundingClientRect();
-            return {
-                top: box.top + pageYOffset,
-                left: box.left + pageXOffset
-            };
-        }
-    })
-
 })
 
