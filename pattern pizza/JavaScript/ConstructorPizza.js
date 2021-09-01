@@ -198,15 +198,11 @@ let cake = document.querySelector('[alt = "Корж класичний"]'),
     goal = document.querySelector('.droppable'),
     ball = document.querySelector("#sauceClassic");
 let div = document.querySelector(".ingridients").childNodes[3];
-//let ballClone = null;
+let ballClone = null;
 let currentDroppable = null;
 
 ball.onmousedown = (e) => {
 
-    // if (ballClone === null) {
-    //     ballClone = ball.cloneNode(true)
-    //     div.prepend(ballClone)
-    // }
     // Передвижение с учётом изначального сдвига shiftX/shiftY.
     let shiftX = e.clientX - ball.getBoundingClientRect().left;
     let shiftY = e.clientY - ball.getBoundingClientRect().top;
@@ -219,14 +215,14 @@ ball.onmousedown = (e) => {
     // разместить на том же месте, но в абсолютных координатах
     ball.style.position = 'absolute';
     ball.style.zIndex = 1000;
-
-
+    
+    
     // переместим в body, чтобы мяч был точно не внутри position:relative
     document.body.append(ball);
-
+    
     // передвинуть мяч под координаты курсора
     moveAt(e.pageX, e.pageY);
-
+    
     // и определить точку в которую нужно преместиться
     function moveAt(pageX, pageY) {
         ball.style.left = pageX - shiftX + 'px';
@@ -235,16 +231,16 @@ ball.onmousedown = (e) => {
     // перемещать по экрану
     function onMouseMove(event) {
         moveAt(event.pageX, event.pageY);
-
+        
         ball.hidden = true;
         let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
         ball.hidden = false;
-
+        
         if (!elemBelow) return;
         let droppableBelow = elemBelow.closest('.droppable');
-
+        
         if (currentDroppable != droppableBelow) {
-
+            
             if (currentDroppable) { // null если мы были не над droppable до этого события
                 // (например, над пустым пространством)
                 leaveDroppable(currentDroppable);
@@ -257,27 +253,27 @@ ball.onmousedown = (e) => {
         }
     };
     document.addEventListener('mousemove', onMouseMove);
-
+    
     ball.onmouseup = function () {
         if (currentDroppable) {
             setSize()
             for (i = 0; i < f0.elements.length; i++) {
-        if (f0.elements[i].checked === true) {
-            switch (i) {
-                case 0: {
-                    ball.style.transform = "scale(0.8)";
-                    break;
-                }
-                case 1: {
-                    ball.style.transform = "scale(0.9)";
-                    break;
-                }
-                case 2: {
-                    ball.style.transform = "scale(1)";
+                if (f0.elements[i].checked === true) {
+                    switch (i) {
+                        case 0: {
+                            ball.style.transform = "scale(0.8)";
+                            break;
+                        }
+                        case 1: {
+                            ball.style.transform = "scale(0.9)";
+                            break;
+                        }
+                        case 2: {
+                            ball.style.transform = "scale(1)";
+                        }
+                    }
                 }
             }
-        }
-    }
             ball.style.left = "1px";
             ball.style.top = "2px";
             ball.style.opacity = "1";
@@ -286,6 +282,9 @@ ball.onmousedown = (e) => {
             goal.style.background = "";
             pizza.addIngridients(Pizza.Sauce_Ketchup)
         } else {
+            ballClone.remove()
+            ballClone = null
+            // ball.className = "draggable"
             ball.style.height = 100 + "px";
             ball.style.width = "auto";
             ball.style.position = "inherit"
@@ -295,9 +294,14 @@ ball.onmousedown = (e) => {
         document.removeEventListener('mousemove', onMouseMove);
         ball.onmouseup = null;
     }
-
-
+    
+    if (ballClone === null) {
+        ballClone = ball.cloneNode(true)
+        ballClone.style.position = "inherit"
+        div.prepend(ballClone)
+    }
 }
+
 function enterDroppable(elem) {
     elem.style.background = 'rgb(221, 246, 250)';
     ball.style.opacity = ".5";
