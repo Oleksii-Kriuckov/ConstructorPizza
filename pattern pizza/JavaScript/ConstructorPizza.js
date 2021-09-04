@@ -185,9 +185,7 @@ Pizza.prototype.removeIngridients = function (ingridient) {
         }
         price = price - ingridient.price;
         spanPrice.innerHTML = price + " грн";
-
     }
-
 }
 
 //Drag and drop
@@ -210,7 +208,7 @@ ingridients.forEach((el, ind) => {
         }
 
         el.style.position = 'absolute';
-        el.style.zIndex = 1000;
+        el.style.zIndex = 100;
 
         document.body.append(el);
 
@@ -405,7 +403,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     for (i = 0; i < f0.elements.length; i++) {
         f0.elements[i].addEventListener('click', (e) => {
-            elementClones.forEach((e,i,a)=>{
+            elementClones.forEach((e,i)=>{
                 if (e != null) {
                     e.remove()
                     e = null
