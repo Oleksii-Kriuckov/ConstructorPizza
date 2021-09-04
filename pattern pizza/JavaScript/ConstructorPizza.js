@@ -48,7 +48,6 @@ const createPizza = (size) => {
     price = pizza.size.price
     let span = divPrice.firstChild.lastChild;
     span.innerHTML = pizza.size.price + " грн";
-    span.style.textTransform = "lowercase";
 }
 
 Pizza.prototype.addIngridients = function (ingridient) {
@@ -191,160 +190,232 @@ Pizza.prototype.removeIngridients = function (ingridient) {
 
 }
 
-
-
 //Drag and drop
 let cake = document.querySelector('[alt = "Корж класичний"]'),
     goal = document.querySelector('.droppable'),
-    ball = document.querySelector("#sauceClassic");
-let div = document.querySelector(".ingridients").childNodes[3];
-let ballClone = null;
+    ingridientContainers = document.querySelectorAll(".ing_cont")
+    ingridients = document.querySelectorAll(".draggable"),
+    elementClones = [null, null, null, null, null, null, null, null, null];
+
 let currentDroppable = null;
-
-ball.onmousedown = (e) => {
-
-    // Передвижение с учётом изначального сдвига shiftX/shiftY.
-    let shiftX = e.clientX - ball.getBoundingClientRect().left;
-    let shiftY = e.clientY - ball.getBoundingClientRect().top;
-    if (window.getComputedStyle(ball)["position"] === "absolute") {
-        setSize()
-    } else {
-        ball.style.height = 100 + "px";
-        ball.style.width = "auto";
-    }
-    // разместить на том же месте, но в абсолютных координатах
-    ball.style.position = 'absolute';
-    ball.style.zIndex = 1000;
-    
-    
-    // переместим в body, чтобы мяч был точно не внутри position:relative
-    document.body.append(ball);
-    
-    // передвинуть мяч под координаты курсора
-    moveAt(e.pageX, e.pageY);
-    
-    // и определить точку в которую нужно преместиться
-    function moveAt(pageX, pageY) {
-        ball.style.left = pageX - shiftX + 'px';
-        ball.style.top = pageY - shiftY + 'px';
-    }
-    // перемещать по экрану
-    function onMouseMove(event) {
-        moveAt(event.pageX, event.pageY);
+ingridients.forEach((el, ind) => {
+    el.onmousedown = (e) => {
         
-        ball.hidden = true;
-        let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
-        ball.hidden = false;
-        
-        if (!elemBelow) return;
-        let droppableBelow = elemBelow.closest('.droppable');
-        
-        if (currentDroppable != droppableBelow) {
-            
-            if (currentDroppable) { // null если мы были не над droppable до этого события
-                // (например, над пустым пространством)
-                leaveDroppable(currentDroppable);
-            }
-            currentDroppable = droppableBelow;
-            if (currentDroppable) { // null если мы не над droppable сейчас, во время этого события
-                // (например, только что покинули droppable)
-                enterDroppable(currentDroppable);
-            }
+        let shiftX = e.clientX - el.getBoundingClientRect().left;
+        let shiftY = e.clientY - el.getBoundingClientRect().top;
+        if (window.getComputedStyle(el)["position"] === "absolute") {
+            setCakeSize()
+        } else {
+            setIngSize(el)
         }
-    };
-    document.addEventListener('mousemove', onMouseMove);
-    
-    ball.onmouseup = function () {
-        if (currentDroppable) {
-            setSize()
-            for (i = 0; i < f0.elements.length; i++) {
-                if (f0.elements[i].checked === true) {
-                    switch (i) {
-                        case 0: {
-                            ball.style.transform = "scale(0.8)";
-                            break;
-                        }
-                        case 1: {
-                            ball.style.transform = "scale(0.9)";
-                            break;
-                        }
-                        case 2: {
-                            ball.style.transform = "scale(1)";
+
+        el.style.position = 'absolute';
+        el.style.zIndex = 1000;
+
+        document.body.append(el);
+
+        moveAt(e.pageX, e.pageY);
+
+        function moveAt(pageX, pageY) {
+            el.style.left = pageX - shiftX + 'px';
+            el.style.top = pageY - shiftY + 'px';
+        }
+
+        function onMouseMove(event) {
+            moveAt(event.pageX, event.pageY);
+
+            el.hidden = true;
+            let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
+            el.hidden = false;
+
+            if (!elemBelow) return;
+            let droppableBelow = elemBelow.closest('.droppable');
+
+            if (currentDroppable != droppableBelow) {
+
+                if (currentDroppable) {
+                    leaveDroppable(currentDroppable);
+                }
+                currentDroppable = droppableBelow;
+                if (currentDroppable) {
+                    enterDroppable(currentDroppable);
+                }
+            }
+        };
+        document.addEventListener('mousemove', onMouseMove);
+
+        el.onmouseup = function () {
+            if (currentDroppable) {
+                setCakeSize()
+                for (i = 0; i < f0.elements.length; i++) {
+                    if (f0.elements[i].checked === true) {
+                        switch (i) {
+                            case 0: {
+                                el.style.transform = "scale(0.8)";
+                                break;
+                            }
+                            case 1: {
+                                el.style.transform = "scale(0.9)";
+                                break;
+                            }
+                            case 2: {
+                                el.style.transform = "scale(1)";
+                            }
                         }
                     }
                 }
+                el.style.left = "1px";
+                el.style.top = "2px";
+                el.style.opacity = "1";
+                goal.style.position = 'relative'
+                goal.append(el);
+                goal.style.background = "";
+                elementClones[ind].style.opacity = 0;
+                ingDetermination (ind)
+            } else {
+                elementClones[ind].remove()
+                elementClones[ind] = null
+                setIngSize(el)
+                el.style.position = "inherit"
+                ingridientContainers[ind].prepend(el)
+                ingDelete(ind)
             }
-            ball.style.left = "1px";
-            ball.style.top = "2px";
-            ball.style.opacity = "1";
-            goal.style.position = 'relative'
-            goal.append(ball);
-            goal.style.background = "";
-            pizza.addIngridients(Pizza.Sauce_Ketchup)
-        } else {
-            ballClone.remove()
-            ballClone = null
-            // ball.className = "draggable"
-            ball.style.height = 100 + "px";
-            ball.style.width = "auto";
-            ball.style.position = "inherit"
-            div.prepend(ball)
-            pizza.removeIngridients(Pizza.Sauce_Ketchup)
+            document.removeEventListener('mousemove', onMouseMove);
+            el.onmouseup = null;
         }
-        document.removeEventListener('mousemove', onMouseMove);
-        ball.onmouseup = null;
+
+        if (elementClones[ind] === null) {
+            elementClones[ind] = el.cloneNode(true)
+            elementClones[ind].style.position = "inherit"
+            ingridientContainers[ind].prepend(elementClones[ind])
+        }
+    }
+
+    el.ondragstart = function () {
+        return false;
+    };
+    
+    function enterDroppable(elem) {
+        elem.style.background = 'rgb(221, 246, 250)';
+        el.style.opacity = ".5";
     }
     
-    if (ballClone === null) {
-        ballClone = ball.cloneNode(true)
-        ballClone.style.position = "inherit"
-        div.prepend(ballClone)
+    function leaveDroppable(elem) {
+        elem.style.background = '';
+        el.style.opacity = "1";
     }
+    
+    function setCakeSize() {
+        let widthCake = parseInt(window.getComputedStyle(cake)["width"])
+        el.style.width = widthCake - 10 + "px";
+        el.style.height = "auto";
+        el.style.transform = "scale(1)"
+    }
+})
+
+function ingDetermination (ind) {
+    switch (ind) {
+        case 0: {
+            pizza.addIngridients(Pizza.Sauce_Ketchup);
+            break;
+        }
+        case 1: {
+            pizza.addIngridients(Pizza.Sauce_BBQ);
+            break;
+        }
+        case 2: {
+            pizza.addIngridients(Pizza.Sauce_Ricotta);
+            break;
+        }
+        case 3: {
+            pizza.addIngridients(Pizza.Topping_Cheese);
+            break;
+        }
+        case 4: {
+            pizza.addIngridients(Pizza.Topping_Feta);
+            break;
+        }
+        case 5: {
+            pizza.addIngridients(Pizza.Topping_Mozzarella);
+            break;
+        }
+        case 6: {
+            pizza.addIngridients(Pizza.Topping_Veal);
+            break;
+        }
+        case 7: {
+            pizza.addIngridients(Pizza.Topping_Tomato);
+            break;
+        }
+        case 8: {
+            pizza.addIngridients(Pizza.Topping_Mushrooms);
+            break;
+        }
+    }
+
 }
 
-function enterDroppable(elem) {
-    elem.style.background = 'rgb(221, 246, 250)';
-    ball.style.opacity = ".5";
+function ingDelete (ind) {
+    switch (ind) {
+        case 0: {
+            pizza.removeIngridients(Pizza.Sauce_Ketchup);
+            break;
+        }
+        case 1: {
+            pizza.removeIngridients(Pizza.Sauce_BBQ);
+            break;
+        }
+        case 2: {
+            pizza.removeIngridients(Pizza.Sauce_Ricotta);
+            break;
+        }
+        case 3: {
+            pizza.removeIngridients(Pizza.Topping_Cheese);
+            break;
+        }
+        case 4: {
+            pizza.removeIngridients(Pizza.Topping_Feta);
+            break;
+        }
+        case 5: {
+            pizza.removeIngridients(Pizza.Topping_Mozzarella);
+            break;
+        }
+        case 6: {
+            pizza.removeIngridients(Pizza.Topping_Veal);
+            break;
+        }
+        case 7: {
+            pizza.removeIngridients(Pizza.Topping_Tomato);
+            break;
+        }
+        case 8: {
+            pizza.removeIngridients(Pizza.Topping_Mushrooms);
+            break;
+        }
+    }
+} 
+function setIngSize(element) {
+    element.style.height = 100 + "px";
+    element.style.width = "auto";
 }
-
-function leaveDroppable(elem) {
-    elem.style.background = '';
-    ball.style.opacity = "1";
-}
-
-function setSize() {
-    let widthCake = parseInt(window.getComputedStyle(cake)["width"])
-    ball.style.width = widthCake - 10 + "px";
-    ball.style.height = "auto";
-    ball.style.transform = "scale(1)"
-}
-// Отмена действия браузера по событию dragstart.
-ball.ondragstart = function () {
-    return false;
-};
-// отследить окончание переноса
-// ball.onmouseup = () => {
-//     if (currentDroppable) {
-//         ballInGoal();
-
-//         goal.style.backgroundColor = "yellow"
-//     } else {
-//         ballClone.remove()
-//         ballClone = null
-//         ball.className = "draggable"
-//         ball.style.position = "inherit"
-//         div.prepend(ball)
-//     }
-
-//     document.onmousemove = null;
-//     ball.onmouseup = null;
-// };
 window.addEventListener('DOMContentLoaded', () => {
 
     createPizza(Pizza.Size_Big);
 
     for (i = 0; i < f0.elements.length; i++) {
         f0.elements[i].addEventListener('click', (e) => {
+            elementClones.forEach((e,i,a)=>{
+                if (e != null) {
+                    e.remove()
+                    e = null
+                    setIngSize(ingridients[i])
+                    ingridients[i].style.position = "inherit"
+                    ingridientContainers[i].prepend(ingridients[i])
+                    ingDelete(i)
+                }
+            })
+
             switch (e.target.getAttribute("id")) {
                 case "small": {
                     createPizza(Pizza.Size_Small);
