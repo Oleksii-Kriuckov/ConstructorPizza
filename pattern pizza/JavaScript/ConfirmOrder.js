@@ -12,35 +12,43 @@ const msgEmail ="Hеправильна електрона пошта";
 
 const patterns = [patternName, patternTel, patternEmail];
 const messegeError = [msgName, msgTel, msgEmail];
+
 const elementsValue = []
+const elementsPlaceholder = []
 
 const clearError = () => {
     for (i = 0; i < f1.elements.length-2; i++) {
         if (f1.elements[i].style.backgroundColor === "red"){
             f1.elements[i].style.backgroundColor = "white"
-            if (f1.elements[i].value === "Це поле повинне бути заповнено") {
-                f1.elements[i].value = ""
+            if (f1.elements[i].getAttribute("placeholder") === "Це поле повинне бути заповнено") {
+                f1.elements[i].setAttribute("placeholder", elementsPlaceholder[i])
             } else {
+                f1.elements[i].setAttribute("placeholder", elementsPlaceholder[i])
                 f1.elements[i].value = elementsValue[i]
             }
             f1.elements[i].style.width = "240px"
         }
     }
+    buttonSubmit.addEventListener("click", showError, false)
 }
 
-buttonSubmit.addEventListener("click", (e) => {
+const showError = (e) => {
+    buttonSubmit.removeEventListener("click", showError, false)
     let empty = false, invalid = false;
     for (i = 0; i < f1.elements.length-2; i++) {
         elementsValue[i] = f1.elements[i].value;
+        elementsPlaceholder[i] = f1.elements[i].getAttribute("placeholder")
         if (f1.elements[i].value.length == 0) {
             f1.elements[i].style.backgroundColor = "red"
             f1.elements[i].style.width = "340px"
-            f1.elements[i].value = "Це поле повинне бути заповнено"
+            f1.elements[i].value = ""
+            f1.elements[i].setAttribute("placeholder", "Це поле повинне бути заповнено");
             empty = true;
         } else if (f1.elements[i].value.search(patterns[i])==-1) {
             f1.elements[i].style.backgroundColor = "red"
             f1.elements[i].style.width = "340px"
-            f1.elements[i].value = messegeError[i]
+            f1.elements[i].value = ""
+            f1.elements[i].setAttribute("placeholder", messegeError[i])
             invalid = true;
         } 
     }
@@ -48,7 +56,8 @@ buttonSubmit.addEventListener("click", (e) => {
     if (!empty && !invalid) {
         document.location.href = "./thank-you.html"
     }
-}, false)
+}
+buttonSubmit.addEventListener("click", showError, false)
 
 
 

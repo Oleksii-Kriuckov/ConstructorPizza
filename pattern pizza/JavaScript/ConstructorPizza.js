@@ -188,13 +188,13 @@ Pizza.prototype.removeIngridients = function (ingridient) {
 //Drag and drop
 let cake = document.querySelector('[alt = "Корж класичний"]'),
     goal = document.querySelector('.droppable'),
-    ingridientContainers = document.querySelectorAll(".ing_cont")
-ingridients = document.querySelectorAll(".draggable"),
+    ingridientContainers = document.querySelectorAll(".ing_cont"),
+    ingridients = document.querySelectorAll(".draggable"),
     elementClones = [null, null, null, null, null, null, null, null, null];
 
 let currentDroppable = null;
 ingridients.forEach((el, ind) => {
-    el.onmousedown = (e) => {
+    el.addEventListener("mousedown", (e) => {
 
         let shiftX = e.clientX - el.getBoundingClientRect().left;
         let shiftY = e.clientY - el.getBoundingClientRect().top;
@@ -237,9 +237,10 @@ ingridients.forEach((el, ind) => {
                 }
             }
         };
+
         document.addEventListener('mousemove', onMouseMove);
 
-        el.onmouseup = function () {
+        function onMouseUp() {
             if (currentDroppable) {
                 setCakeSize()
                 for (i = 0; i < f0.elements.length; i++) {
@@ -265,7 +266,6 @@ ingridients.forEach((el, ind) => {
                 goal.style.position = 'relative'
                 goal.append(el);
                 goal.style.background = "";
-                elementClones[ind].style.opacity = 0;
                 ingDetermination(ind)
             } else {
                 elementClones[ind].remove()
@@ -277,14 +277,17 @@ ingridients.forEach((el, ind) => {
             }
             document.removeEventListener('mousemove', onMouseMove);
             el.onmouseup = null;
-        }
+        };
 
+        el.addEventListener("mouseup", onMouseUp)
+        
         if (elementClones[ind] === null) {
             elementClones[ind] = el.cloneNode(true)
             elementClones[ind].style.position = "inherit"
             ingridientContainers[ind].prepend(elementClones[ind])
+            // elementClones[ind].style.opacity = 0;
         }
-    }
+    })
 
     el.ondragstart = function () {
         return false;
@@ -394,6 +397,7 @@ function setIngSize(element) {
     element.style.height = 100 + "px";
     element.style.width = "auto";
 }
+
 window.addEventListener('DOMContentLoaded', () => {
 
     createPizza(Pizza.Size_Big);
