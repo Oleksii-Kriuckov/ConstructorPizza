@@ -52,69 +52,66 @@ const createPizza = (size) => {
 
 Pizza.prototype.addIngridients = function (ingridient) {
 
-    if (ingridient.added === true) {
-        alert("Компонент " + ingridient.name + " вже є")
-    } else {
-        switch (ingridient.name) {
-            case 'Сир': {
-                this.cheese = ingridient;
-                ingridient.added = true;
-                break;
-            }
-            case 'Фета': {
-                this.feta = ingridient;
-                ingridient.added = true;
-                break;
-            }
-            case 'Моцарелла': {
-                this.mozzarella = ingridient;
-                ingridient.added = true;
-                break;
-            }
-            case 'Телятина': {
-                this.veal = ingridient;
-                ingridient.added = true;
-                break;
-            }
-            case 'Помiдори': {
-                this.tomato = ingridient;
-                ingridient.added = true;
-                break;
-            }
-            case 'Гриби': {
-                this.mushrooms = ingridient;
-                ingridient.added = true;
-                break;
-            }
-            case 'Кетчуп': {
-                this.ketchup = ingridient;
-                ingridient.added = true;
-                break;
-            }
-            case 'BBQ': {
-                this.bbq = ingridient;
-                ingridient.added = true;
-                break;
-            }
-            case 'Рiкотта': {
-                this.ricotta = ingridient;
-                ingridient.added = true;
-                break;
-            }
+    switch (ingridient.name) {
+        case 'Сир': {
+            this.cheese = ingridient;
+            ingridient.added = true;
+            break;
         }
-
-        if (ingridient.type == 'Sauce') {
-            sauces.push(ingridient.name);
-            spanSauces.innerHTML = sauces.toString()
-            spanSauces.style.textTransform = "capitalize";
-        } else {
-            toppings.push(ingridient.name);
-            spanToppings.innerHTML = toppings.toString()
-            spanToppings.style.textTransform = "capitalize";
+        case 'Фета': {
+            this.feta = ingridient;
+            ingridient.added = true;
+            break;
         }
-        price = price + ingridient.price;
-        spanPrice.innerHTML = price + " грн";
+        case 'Моцарелла': {
+            this.mozzarella = ingridient;
+            ingridient.added = true;
+            break;
+        }
+        case 'Телятина': {
+            this.veal = ingridient;
+            ingridient.added = true;
+            break;
+        }
+        case 'Помiдори': {
+            this.tomato = ingridient;
+            ingridient.added = true;
+            break;
+        }
+        case 'Гриби': {
+            this.mushrooms = ingridient;
+            ingridient.added = true;
+            break;
+        }
+        case 'Кетчуп': {
+            this.ketchup = ingridient;
+            ingridient.added = true;
+            break;
+        }
+        case 'BBQ': {
+            this.bbq = ingridient;
+            ingridient.added = true;
+            break;
+        }
+        case 'Рiкотта': {
+            this.ricotta = ingridient;
+            ingridient.added = true;
+            break;
+        }
     }
+
+    if (ingridient.type == 'Sauce') {
+        sauces.push(ingridient.name);
+        spanSauces.innerHTML = sauces.toString()
+        spanSauces.style.textTransform = "capitalize";
+    } else {
+        toppings.push(ingridient.name);
+        spanToppings.innerHTML = toppings.toString()
+        spanToppings.style.textTransform = "capitalize";
+    }
+    price = price + ingridient.price;
+    spanPrice.innerHTML = price + " грн";
+
 }
 Pizza.prototype.removeIngridients = function (ingridient) {
     if (ingridient.added === true) {
@@ -192,13 +189,13 @@ Pizza.prototype.removeIngridients = function (ingridient) {
 let cake = document.querySelector('[alt = "Корж класичний"]'),
     goal = document.querySelector('.droppable'),
     ingridientContainers = document.querySelectorAll(".ing_cont")
-    ingridients = document.querySelectorAll(".draggable"),
+ingridients = document.querySelectorAll(".draggable"),
     elementClones = [null, null, null, null, null, null, null, null, null];
 
 let currentDroppable = null;
 ingridients.forEach((el, ind) => {
     el.onmousedown = (e) => {
-        
+
         let shiftX = e.clientX - el.getBoundingClientRect().left;
         let shiftY = e.clientY - el.getBoundingClientRect().top;
         if (window.getComputedStyle(el)["position"] === "absolute") {
@@ -269,7 +266,7 @@ ingridients.forEach((el, ind) => {
                 goal.append(el);
                 goal.style.background = "";
                 elementClones[ind].style.opacity = 0;
-                ingDetermination (ind)
+                ingDetermination(ind)
             } else {
                 elementClones[ind].remove()
                 elementClones[ind] = null
@@ -292,17 +289,17 @@ ingridients.forEach((el, ind) => {
     el.ondragstart = function () {
         return false;
     };
-    
+
     function enterDroppable(elem) {
         elem.style.background = 'rgb(221, 246, 250)';
         el.style.opacity = ".5";
     }
-    
+
     function leaveDroppable(elem) {
         elem.style.background = '';
         el.style.opacity = "1";
     }
-    
+
     function setCakeSize() {
         let widthCake = parseInt(window.getComputedStyle(cake)["width"])
         el.style.width = widthCake - 10 + "px";
@@ -311,7 +308,7 @@ ingridients.forEach((el, ind) => {
     }
 })
 
-function ingDetermination (ind) {
+function ingDetermination(ind) {
     switch (ind) {
         case 0: {
             pizza.addIngridients(Pizza.Sauce_Ketchup);
@@ -353,7 +350,7 @@ function ingDetermination (ind) {
 
 }
 
-function ingDelete (ind) {
+function ingDelete(ind) {
     switch (ind) {
         case 0: {
             pizza.removeIngridients(Pizza.Sauce_Ketchup);
@@ -392,7 +389,7 @@ function ingDelete (ind) {
             break;
         }
     }
-} 
+}
 function setIngSize(element) {
     element.style.height = 100 + "px";
     element.style.width = "auto";
@@ -403,7 +400,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     for (i = 0; i < f0.elements.length; i++) {
         f0.elements[i].addEventListener('click', (e) => {
-            elementClones.forEach((e,i)=>{
+            elementClones.forEach((e, i) => {
                 if (e != null) {
                     e.remove()
                     e = null
