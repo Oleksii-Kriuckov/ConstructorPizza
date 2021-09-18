@@ -224,6 +224,7 @@ ingridients.forEach((el, ind) => {
             setCakeSize()
         } else {
             setIngSize(el)
+            el.style.width = "196px";
         }
 
         el.style.position = 'absolute';
@@ -296,6 +297,7 @@ ingridients.forEach((el, ind) => {
                 elementClones[ind].remove()
                 elementClones[ind] = null
                 setIngSize(el)
+                el.style.width = "100%";
                 el.style.position = "inherit"
                 ingridientContainers[ind].prepend(el)
                 ingDelete(ind)
@@ -319,12 +321,10 @@ ingridients.forEach((el, ind) => {
 
     function enterDroppable(elem) {
         elem.style.background = 'rgb(221, 246, 250)';
-        el.style.opacity = ".5";
     }
 
     function leaveDroppable(elem) {
         elem.style.background = '';
-        el.style.opacity = "1";
     }
 
     function setCakeSize() {
@@ -438,7 +438,6 @@ function ingDelete(ind) {
 
 function setIngSize(element) {
     element.style.height = 100 + "px";
-    element.style.width = "auto";
 }
 
 window.addEventListener('DOMContentLoaded', () => {
