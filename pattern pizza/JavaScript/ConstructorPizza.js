@@ -9,7 +9,8 @@ const divToppings = document.querySelector('.topings');
 const spanToppings = divToppings.firstChild.lastChild;
 
 let price = 0;
-const toppings = [], sauces = [];
+const toppings = [],
+    sauces = [];
 
 function Pizza(size) {
     this.size = size;
@@ -50,121 +51,142 @@ const createPizza = (size) => {
     span.innerHTML = pizza.size.price + " грн";
 }
 
-Pizza.prototype.addIngridients = function (ingridient) {
+Pizza.prototype.addIngridients = function(ingridient) {
 
-    switch (ingridient.name) {
-        case 'Сир': {
-            this.cheese = ingridient;
-            ingridient.added = true;
-            break;
-        }
-        case 'Фета': {
-            this.feta = ingridient;
-            ingridient.added = true;
-            break;
-        }
-        case 'Моцарелла': {
-            this.mozzarella = ingridient;
-            ingridient.added = true;
-            break;
-        }
-        case 'Телятина': {
-            this.veal = ingridient;
-            ingridient.added = true;
-            break;
-        }
-        case 'Помiдори': {
-            this.tomato = ingridient;
-            ingridient.added = true;
-            break;
-        }
-        case 'Гриби': {
-            this.mushrooms = ingridient;
-            ingridient.added = true;
-            break;
-        }
-        case 'Кетчуп': {
-            this.ketchup = ingridient;
-            ingridient.added = true;
-            break;
-        }
-        case 'BBQ': {
-            this.bbq = ingridient;
-            ingridient.added = true;
-            break;
-        }
-        case 'Рiкотта': {
-            this.ricotta = ingridient;
-            ingridient.added = true;
-            break;
-        }
-    }
+    if (ingridient.added === false) {
 
-    if (ingridient.type == 'Sauce') {
-        sauces.push(ingridient.name);
-        spanSauces.innerHTML = sauces.toString()
-        spanSauces.style.textTransform = "capitalize";
-    } else {
-        toppings.push(ingridient.name);
-        spanToppings.innerHTML = toppings.toString()
-        spanToppings.style.textTransform = "capitalize";
-    }
-    price = price + ingridient.price;
-    spanPrice.innerHTML = price + " грн";
-
-}
-Pizza.prototype.removeIngridients = function (ingridient) {
-    if (ingridient.added === true) {
         switch (ingridient.name) {
-            case 'Сир': {
-                delete this.cheese;
-                ingridient.added = false;
-                break;
-            }
-            case 'Фета': {
-                delete this.feta
-                ingridient.added = false;
-                break;
-            }
-            case 'Моцарелла': {
-                delete this.mozzarella
-                ingridient.added = false;
-                break;
-            }
-            case 'Телятина': {
-                delete this.veal
-                ingridient.added = false;
-                break;
-            }
-            case 'Помiдори': {
-                delete this.tomato
-                ingridient.added = false;
-                break;
-            }
-            case 'Гриби': {
-                delete this.mushrooms
-                ingridient.added = false;
-                break;
-            }
-            case 'Кетчуп': {
-                delete this.ketchup
-                ingridient.added = false;
-                break;
-            }
-            case 'BBQ': {
-                delete this.bbq
-                ingridient.added = false;
-                break;
-            }
-            case 'Рiкотта': {
-                delete this.ricotta
-                ingridient.added = false;
-                break;
-            }
+            case 'Сир':
+                {
+                    this.cheese = ingridient;
+                    ingridient.added = true;
+                    break;
+                }
+            case 'Фета':
+                {
+                    this.feta = ingridient;
+                    ingridient.added = true;
+                    break;
+                }
+            case 'Моцарелла':
+                {
+                    this.mozzarella = ingridient;
+                    ingridient.added = true;
+                    break;
+                }
+            case 'Телятина':
+                {
+                    this.veal = ingridient;
+                    ingridient.added = true;
+                    break;
+                }
+            case 'Помiдори':
+                {
+                    this.tomato = ingridient;
+                    ingridient.added = true;
+                    break;
+                }
+            case 'Гриби':
+                {
+                    this.mushrooms = ingridient;
+                    ingridient.added = true;
+                    break;
+                }
+            case 'Кетчуп':
+                {
+                    this.ketchup = ingridient;
+                    ingridient.added = true;
+                    break;
+                }
+            case 'BBQ':
+                {
+                    this.bbq = ingridient;
+                    ingridient.added = true;
+                    break;
+                }
+            case 'Рiкотта':
+                {
+                    this.ricotta = ingridient;
+                    ingridient.added = true;
+                    break;
+                }
         }
 
         if (ingridient.type == 'Sauce') {
-            sauces.forEach(function (el, i, a) {
+            sauces.push(ingridient.name);
+            spanSauces.innerHTML = sauces.toString()
+            spanSauces.style.textTransform = "capitalize";
+        } else {
+            toppings.push(ingridient.name);
+            spanToppings.innerHTML = toppings.toString()
+            spanToppings.style.textTransform = "capitalize";
+        }
+        price = price + ingridient.price;
+        spanPrice.innerHTML = price + " грн";
+    }
+}
+
+Pizza.prototype.removeIngridients = function(ingridient) {
+    if (ingridient.added === true) {
+        switch (ingridient.name) {
+            case 'Сир':
+                {
+                    delete this.cheese;
+                    ingridient.added = false;
+                    break;
+                }
+            case 'Фета':
+                {
+                    delete this.feta
+                    ingridient.added = false;
+                    break;
+                }
+            case 'Моцарелла':
+                {
+                    delete this.mozzarella
+                    ingridient.added = false;
+                    break;
+                }
+            case 'Телятина':
+                {
+                    delete this.veal
+                    ingridient.added = false;
+                    break;
+                }
+            case 'Помiдори':
+                {
+                    delete this.tomato
+                    ingridient.added = false;
+                    break;
+                }
+            case 'Гриби':
+                {
+                    delete this.mushrooms
+                    ingridient.added = false;
+                    break;
+                }
+            case 'Кетчуп':
+                {
+                    delete this.ketchup
+                    ingridient.added = false;
+                    break;
+                }
+            case 'BBQ':
+                {
+                    delete this.bbq
+                    ingridient.added = false;
+                    break;
+                }
+            case 'Рiкотта':
+                {
+                    delete this.ricotta
+                    ingridient.added = false;
+                    break;
+                }
+        }
+
+        if (ingridient.type == 'Sauce') {
+            sauces.forEach(function(el, i, a) {
                 if (el == ingridient.name) {
                     a.splice(i, 1)
                 }
@@ -172,7 +194,7 @@ Pizza.prototype.removeIngridients = function (ingridient) {
             spanSauces.innerHTML = sauces.toString()
             spanSauces.style.textTransform = "capitalize";
         } else {
-            toppings.forEach(function (el, i, a) {
+            toppings.forEach(function(el, i, a) {
                 if (el == ingridient.name) {
                     a.splice(i, 1)
                 }
@@ -246,17 +268,20 @@ ingridients.forEach((el, ind) => {
                 for (i = 0; i < f0.elements.length; i++) {
                     if (f0.elements[i].checked === true) {
                         switch (i) {
-                            case 0: {
-                                el.style.transform = "scale(0.8)";
-                                break;
-                            }
-                            case 1: {
-                                el.style.transform = "scale(0.9)";
-                                break;
-                            }
-                            case 2: {
-                                el.style.transform = "scale(1)";
-                            }
+                            case 0:
+                                {
+                                    el.style.transform = "scale(0.8)";
+                                    break;
+                                }
+                            case 1:
+                                {
+                                    el.style.transform = "scale(0.9)";
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    el.style.transform = "scale(1)";
+                                }
                         }
                     }
                 }
@@ -280,16 +305,15 @@ ingridients.forEach((el, ind) => {
         };
 
         el.addEventListener("mouseup", onMouseUp)
-        
+
         if (elementClones[ind] === null) {
             elementClones[ind] = el.cloneNode(true)
             elementClones[ind].style.position = "inherit"
             ingridientContainers[ind].prepend(elementClones[ind])
-            // elementClones[ind].style.opacity = 0;
         }
     })
 
-    el.ondragstart = function () {
+    el.ondragstart = function() {
         return false;
     };
 
@@ -313,86 +337,105 @@ ingridients.forEach((el, ind) => {
 
 function ingDetermination(ind) {
     switch (ind) {
-        case 0: {
-            pizza.addIngridients(Pizza.Sauce_Ketchup);
-            break;
-        }
-        case 1: {
-            pizza.addIngridients(Pizza.Sauce_BBQ);
-            break;
-        }
-        case 2: {
-            pizza.addIngridients(Pizza.Sauce_Ricotta);
-            break;
-        }
-        case 3: {
-            pizza.addIngridients(Pizza.Topping_Cheese);
-            break;
-        }
-        case 4: {
-            pizza.addIngridients(Pizza.Topping_Feta);
-            break;
-        }
-        case 5: {
-            pizza.addIngridients(Pizza.Topping_Mozzarella);
-            break;
-        }
-        case 6: {
-            pizza.addIngridients(Pizza.Topping_Veal);
-            break;
-        }
-        case 7: {
-            pizza.addIngridients(Pizza.Topping_Tomato);
-            break;
-        }
-        case 8: {
-            pizza.addIngridients(Pizza.Topping_Mushrooms);
-            break;
-        }
+        case 0:
+            {
+                pizza.addIngridients(Pizza.Sauce_Ketchup);
+                break;
+            }
+        case 1:
+            {
+                pizza.addIngridients(Pizza.Sauce_BBQ);
+                break;
+            }
+        case 2:
+            {
+                pizza.addIngridients(Pizza.Sauce_Ricotta);
+                break;
+            }
+        case 3:
+            {
+                pizza.addIngridients(Pizza.Topping_Cheese);
+                break;
+            }
+        case 4:
+            {
+                pizza.addIngridients(Pizza.Topping_Feta);
+                break;
+            }
+        case 5:
+            {
+                pizza.addIngridients(Pizza.Topping_Mozzarella);
+                break;
+            }
+        case 6:
+            {
+                pizza.addIngridients(Pizza.Topping_Veal);
+                break;
+            }
+        case 7:
+            {
+                pizza.addIngridients(Pizza.Topping_Tomato);
+                break;
+            }
+        case 8:
+            {
+                pizza.addIngridients(Pizza.Topping_Mushrooms);
+                break;
+            }
     }
 
 }
 
 function ingDelete(ind) {
     switch (ind) {
-        case 0: {
-            pizza.removeIngridients(Pizza.Sauce_Ketchup);
-            break;
-        }
-        case 1: {
-            pizza.removeIngridients(Pizza.Sauce_BBQ);
-            break;
-        }
-        case 2: {
-            pizza.removeIngridients(Pizza.Sauce_Ricotta);
-            break;
-        }
-        case 3: {
-            pizza.removeIngridients(Pizza.Topping_Cheese);
-            break;
-        }
-        case 4: {
-            pizza.removeIngridients(Pizza.Topping_Feta);
-            break;
-        }
-        case 5: {
-            pizza.removeIngridients(Pizza.Topping_Mozzarella);
-            break;
-        }
-        case 6: {
-            pizza.removeIngridients(Pizza.Topping_Veal);
-            break;
-        }
-        case 7: {
-            pizza.removeIngridients(Pizza.Topping_Tomato);
-            break;
-        }
-        case 8: {
-            pizza.removeIngridients(Pizza.Topping_Mushrooms);
-            break;
-        }
+        case 0:
+            {
+                pizza.removeIngridients(Pizza.Sauce_Ketchup);
+                break;
+            }
+        case 1:
+            {
+                pizza.removeIngridients(Pizza.Sauce_BBQ);
+                break;
+            }
+        case 2:
+            {
+                pizza.removeIngridients(Pizza.Sauce_Ricotta);
+                break;
+            }
+        case 3:
+            {
+                pizza.removeIngridients(Pizza.Topping_Cheese);
+                break;
+            }
+        case 4:
+            {
+                pizza.removeIngridients(Pizza.Topping_Feta);
+                break;
+            }
+        case 5:
+            {
+                pizza.removeIngridients(Pizza.Topping_Mozzarella);
+                break;
+            }
+        case 6:
+            {
+                pizza.removeIngridients(Pizza.Topping_Veal);
+                break;
+            }
+        case 7:
+            {
+                pizza.removeIngridients(Pizza.Topping_Tomato);
+                break;
+            }
+        case 8:
+            {
+                pizza.removeIngridients(Pizza.Topping_Mushrooms);
+                break;
+            }
     }
 }
+
 function setIngSize(element) {
     element.style.height = 100 + "px";
     element.style.width = "auto";
@@ -416,22 +459,24 @@ window.addEventListener('DOMContentLoaded', () => {
             })
 
             switch (e.target.getAttribute("id")) {
-                case "small": {
-                    createPizza(Pizza.Size_Small);
-                    cake.style.transform = "scale(0.8)";
-                    break;
-                }
-                case "mid": {
-                    createPizza(Pizza.Size_Midle);
-                    cake.style.transform = "scale(0.9)";
-                    break;
-                }
-                case "big": {
-                    createPizza(Pizza.Size_Big);
-                    cake.style.transform = "scale(1)";
-                }
+                case "small":
+                    {
+                        createPizza(Pizza.Size_Small);
+                        cake.style.transform = "scale(0.8)";
+                        break;
+                    }
+                case "mid":
+                    {
+                        createPizza(Pizza.Size_Midle);
+                        cake.style.transform = "scale(0.9)";
+                        break;
+                    }
+                case "big":
+                    {
+                        createPizza(Pizza.Size_Big);
+                        cake.style.transform = "scale(1)";
+                    }
             }
         })
     }
 })
-

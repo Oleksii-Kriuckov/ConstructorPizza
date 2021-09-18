@@ -204,6 +204,7 @@ input[type="radio"], input[type="checkbox"] {
 
 .result {
     display: flex;
+    gap: 10px;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-evenly;
@@ -223,8 +224,10 @@ p {
     display: inline-block;
     width: 30%;
 }
-
-.ingridients div img {
+#a {
+    width: 100%;
+}
+.draggable {
     height: 100px;
 }
 
