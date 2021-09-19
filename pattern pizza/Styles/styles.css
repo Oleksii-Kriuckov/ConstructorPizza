@@ -9,6 +9,7 @@
     --dark: #10004b;
 }
 
+/* header */
 header {
     background-color: white;
     display: flex;
@@ -60,15 +61,17 @@ nav {
     align-items: center;
 }
 
+/* main */
 main {
     background: linear-gradient(180deg, #f9f9f9, #fff, #f9f9f9);
     padding: 0 10%;
 }
 
+/* #banner */
 #banner {
     position: fixed;
-    bottom: 2%;
-    right: 1%;
+    bottom: 15px;
+    right: 15px;
     background: linear-gradient(50deg, white, #eee);
     box-shadow: 2px 2px 5px #999;
     padding: 1em 1.5em;
@@ -121,6 +124,7 @@ sub {
     padding: 10px 0 40px;
 }
 
+/* Сontainer Pizza */
 .table-wrapper {
     display: flex;
     flex-direction: row;
@@ -236,6 +240,8 @@ p {
     text-align: center;
 }
 
+
+/* footer  */
 footer {
     background: linear-gradient(50deg, var(--main) -10%, var(--dark) 110%);
     padding: 60px 10% 40px;
@@ -253,14 +259,6 @@ footer input {
     border-radius: 10px;
     border: none;
     font-size: 0.9em;
-}
-
-.success {
-    border: 2px green solid;
-}
-
-.error {
-    border: 2px red solid;
 }
 
 .button {
@@ -286,18 +284,6 @@ address {
     text-align: center;
     margin-top: 40px;
     color: white;
-}
-
-.x {
-    margin-left: 8px;
-    padding: 2px 7px;
-    border: none;
-    background-color: red;
-    font-weight: 900;
-    font-size: 1.1em;
-    color: white;
-    border-radius: 50%;
-    box-shadow: 1px 1px 3px 0 #aaa;
 }
 
 p.element {

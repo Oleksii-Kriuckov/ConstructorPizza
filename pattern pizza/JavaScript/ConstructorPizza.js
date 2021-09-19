@@ -451,6 +451,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     e.remove()
                     e = null
                     setIngSize(ingridients[i])
+                    ingridients[i].style.width = "196px";
                     ingridients[i].style.position = "inherit"
                     ingridientContainers[i].prepend(ingridients[i])
                     ingDelete(i)

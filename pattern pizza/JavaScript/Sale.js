@@ -5,19 +5,22 @@ let heightElem = parseInt(window.getComputedStyle(banner)["height"]) + parseInt(
 let widthWindow = innerWidth, heightWindow = innerHeight, paramLeft, paramTop, counterX = 0, counterY = 0;
 
 banner.addEventListener("mouseover", (e) => {
-
+    
+    let right = parseInt(window.getComputedStyle(banner)["right"])
+    let bottom = parseInt(window.getComputedStyle(banner)["bottom"])
+    
     const moveX = (x) => {
         banner.style.zIndex = 1000;
-        banner.style.right = widthWindow - e.clientX + x + "px";
+        banner.style.right = right + x + "px";
     }
     const moveY = (y) => {
         banner.style.zIndex = 1000;
-        banner.style.bottom = heightWindow - e.clientY + y + "px";
+        banner.style.bottom = bottom + y + "px";
     }
-
+    
     if (e.offsetX < widthElem / 2) {
         if (e.clientX < (widthWindow - (widthElem + 50))) {
-            moveX(-(widthElem + 50));
+            moveX(-50);
         } else {
             moveX(50);
         }
@@ -25,13 +28,13 @@ banner.addEventListener("mouseover", (e) => {
         if (e.clientX > (widthElem + 50)) {
             moveX(50);
         } else {
-            moveX(-(widthElem + 50));
+            moveX(-50);
         }
     }
 
     if (e.offsetY < heightElem / 2) {
         if (e.clientY < heightWindow - (heightElem + 50)) {
-            moveY(-(heightElem + 50));
+            moveY(-50);
         } else {
             moveY(50);
         }
@@ -39,7 +42,7 @@ banner.addEventListener("mouseover", (e) => {
         if (e.clientY > (heightElem + 50)) {
             moveY(50);
         } else {
-            moveY(-(heightElem + 50))
+            moveY(-50)
         }
     }
 })
