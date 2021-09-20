@@ -1,12 +1,12 @@
 const f0 = document.forms[0];
 const divPrice = document.querySelector('.price'),
-    spanPrice = divPrice.firstChild.lastChild;
+    spanPrice = document.querySelector('.span_price')
 
 const divSauces = document.querySelector('.sauces');
-const spanSauces = divSauces.firstChild.lastChild;
+const spanSauces = document.querySelector('.span_sauces')
 
 const divToppings = document.querySelector('.topings');
-const spanToppings = divToppings.firstChild.lastChild;
+const spanToppings = document.querySelector('.span_toppings')
 
 let price = 0;
 const toppings = [],
@@ -47,8 +47,7 @@ Pizza.Sauce_Ricotta = new Ingredient(15, 'Рiкотта', 'Sauce')
 const createPizza = (size) => {
     pizza = new Pizza(size)
     price = pizza.size.price
-    let span = divPrice.firstChild.lastChild;
-    span.innerHTML = pizza.size.price + " грн";
+    spanPrice.innerHTML = pizza.size.price + " грн";
 }
 
 Pizza.prototype.addIngridients = function(ingridient) {
