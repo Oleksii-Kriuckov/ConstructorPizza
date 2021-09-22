@@ -223,7 +223,7 @@ ingridients.forEach((el, ind) => {
             setCakeSize()
         } else {
             setIngSize(el)
-            el.style.width = "196px";
+            el.style.width = "auto";
         }
 
         el.style.position = 'absolute';
@@ -450,7 +450,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     e.remove()
                     e = null
                     setIngSize(ingridients[i])
-                    ingridients[i].style.width = "196px";
+                    ingridients[i].style.width = "100%";
                     ingridients[i].style.position = "inherit"
                     ingridientContainers[i].prepend(ingridients[i])
                     ingDelete(i)
